@@ -1,0 +1,9 @@
+is_package: true
+container:
+  type: HtmlTemplate
+  properties: {html: '@theme:standard-page.html'}
+components:
+- type: ColumnPanel
+  properties: {}
+  name: column_panel_1
+  layout_properties: {slot: default}
