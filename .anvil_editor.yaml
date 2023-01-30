@@ -3,7 +3,8 @@ unique_ids:
     mainpage: JGHL3Q23O7SPUWASPFC2RTOKM7WL5EAM
     mainpage.RowTemplate1: XPGMNM5EJILZKJ7L5WGHGUSYKNHJYUU5
   modules: {}
-  server_modules: {}
+  server_modules:
+    get_content: '1675107121071968968569886.7318'
   assets:
     standard-page.html: MKXYSDI5B3I6EA4OVDL7HJYSHI4IO674
     theme.css: BEIW3JBPXL3WCUDSIVVNFHKH6JXMWJAC
