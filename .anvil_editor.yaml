@@ -1,7 +1,7 @@
 unique_ids:
   forms:
-    Form1: JGHL3Q23O7SPUWASPFC2RTOKM7WL5EAM
-    Form1.RowTemplate1: XPGMNM5EJILZKJ7L5WGHGUSYKNHJYUU5
+    mainpage: JGHL3Q23O7SPUWASPFC2RTOKM7WL5EAM
+    mainpage.RowTemplate1: XPGMNM5EJILZKJ7L5WGHGUSYKNHJYUU5
   modules: {}
   server_modules: {}
   assets:
