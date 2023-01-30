@@ -4,7 +4,9 @@ container:
   properties: {html: '@theme:standard-page.html'}
 components:
 - type: ColumnPanel
-  properties: {col_widths: '{}'}
+  properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
+    wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{}',
+    spacing_below: small, background: ''}
   name: column_panel_1
   layout_properties: {slot: default}
   components:
@@ -16,7 +18,7 @@ components:
     name: rich_text_4
     layout_properties: {grid_position: 'LZWOUF,KTPHQH'}
   - type: Button
-    properties: {role: null, align: full, tooltip: '', border: '', enabled: true,
+    properties: {role: filled, align: full, tooltip: '', border: '', enabled: true,
       foreground: '', visible: true, text: read question, font_size: 50, font: '',
       spacing_above: small, icon_align: left, spacing_below: small, italic: false,
       background: '', bold: true, underline: false, icon: ''}
@@ -24,38 +26,38 @@ components:
     layout_properties: {grid_position: 'LXEBXF,ABXYAM'}
     event_bindings: {click: read_question_click}
   - type: Button
-    properties: {role: null, align: full, tooltip: '', border: '', enabled: true,
+    properties: {role: filled, align: full, tooltip: '', border: '', enabled: true,
       foreground: '', visible: true, text: Next Question, font_size: 50, font: '',
       spacing_above: small, icon_align: left, spacing_below: small, italic: false,
       background: '', bold: true, underline: false, icon: ''}
     name: next_question
     layout_properties: {grid_position: 'LXEBXF,IUPOVP'}
   - type: Button
-    properties: {role: null, align: full, tooltip: '', border: '', enabled: true,
+    properties: {role: filled, align: full, tooltip: '', border: '', enabled: true,
       foreground: '', visible: true, text: '  Play', font_size: 50, font: '', spacing_above: small,
       icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
       underline: false, icon: 'fa:arrow-circle-o-right'}
     name: start_reading
     layout_properties: {grid_position: 'QPFQET,TEYCYG'}
   - type: Button
-    properties: {role: null, align: full, tooltip: '', border: '', enabled: true,
+    properties: {role: filled, align: full, tooltip: '', border: '', enabled: true,
       foreground: '', visible: true, text: '  Stop', font_size: 50, font: '', spacing_above: small,
       icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
       underline: false, icon: 'fa:stop'}
     name: next_question_copy_3
     layout_properties: {grid_position: 'QPFQET,FHCZWA'}
   - type: Button
-    properties: {role: null, align: full, tooltip: '', border: '', enabled: true,
+    properties: {role: filled, align: full, tooltip: '', border: '', enabled: true,
       foreground: '', visible: true, text: '  Pause', font_size: 50, font: '', spacing_above: small,
       icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
       underline: false, icon: 'fa:pause'}
     name: pause_reading
     layout_properties: {grid_position: 'QPFQET,TEBLSW'}
   - type: TextArea
-    properties: {role: null, align: center, height: 110.7, tooltip: '', placeholder: 'Insert
-        your answer here. If this is a Multiple Choice, enter W,X,Y,Z. If this is
-        a Short Answer, enter your answer here. Then, press enter.', border: '', enabled: true,
-      foreground: '', visible: true, text: '', font_size: 30, auto_expand: false,
+    properties: {role: null, align: center, height: 108.49998779296875, tooltip: '',
+      placeholder: 'Insert your answer here. If this is a Multiple Choice, enter W,X,Y,Z.
+        If this is a Short Answer, enter your answer here. Then, press enter.', border: '',
+      enabled: true, foreground: '', visible: true, text: '', font_size: 30, auto_expand: false,
       font: '', spacing_above: small, spacing_below: small, italic: false, background: '',
       bold: true, underline: false}
     name: answerbox

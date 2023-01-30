@@ -6,18 +6,17 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import time
 from anvil.js.window import speechSynthesis as synth
-from anvil.js.window import alert, confirm, prompt
+from anvil.js.window import alert, prompt
 
-
+def mc_choice(message):
+    return prompt(message).upper()[0] == "Y"
     
 class mainpage(mainpageTemplate):
     def __init__(self, **properties):
         # Set Form properties and Data Bindings.
         self.init_components(**properties)
-        print(alert("hello"))
-        print(confirm("hi"))
-        print(prompt("uga buga"))
         # Any code you write here will run when the form opens.
+        print(mc_choice("unga kabunga"))
     def say(self,text,voice = "",volume = 100,rate = 100,pitch = 100):
         text = text.replace("`","")
         utr = anvil.js.window.SpeechSynthesisUtterance(text)
