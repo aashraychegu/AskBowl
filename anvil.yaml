@@ -8,8 +8,9 @@ native_deps: {head_html: '<link href="https://fonts.googleapis.com/css2?family=E
 runtime_options:
   version: 2
   client_version: '3'
-  server_version: python3-full
-  server_spec: {base: python310-minimal}
+  server_version: python3-sandbox
+  server_spec: null
+  server_spec_disabled: {base: python310-minimal, requirements: ''}
 services:
 - source: /runtime/services/tables.yml
   client_config: {}

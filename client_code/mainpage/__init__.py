@@ -57,8 +57,9 @@ class mainpage(mainpageTemplate):
     def __init__(self, **properties):
         # Set Form properties and Data Bindings.
         self.init_components(**properties)
+        content = store_to_local_storage()
         # Any code you write here will run when the form opens.
-        print(mc_choice("unga kabunga"))
+        # print(mc_choice("unga kabunga"))
     def say(self,text,voice = "",volume = 100,rate = 100,pitch = 100):
         text = text.replace("`","")
         utr = anvil.js.window.SpeechSynthesisUtterance(text)
