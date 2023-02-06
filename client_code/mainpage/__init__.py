@@ -8,6 +8,7 @@ from anvil.tables import app_tables
 import time
 from anvil.js.window import speechSynthesis as synth
 from anvil.js.window import alert, prompt
+from anvil_extras.storage import indexed_db
 
 def clamp(num, minimum=0, maximum=200):
     return max(min(maximum, num), minimum)
@@ -19,9 +20,14 @@ class mainpage(mainpageTemplate):
     def __init__(self, **properties):
         # Set Form properties and Data Bindings.
         self.init_components(**properties)
-        content = store_to_local_storage()
-        # Any code you write here will run when the form opens.
-        # print(mc_choice("unga kabunga"))
+        self.pqs, self.lookup = anvil.server.call("create_categories")
+        ab_store = indexed_db.create_store('ask_bowl')
+        ab_store["pqs"] = self.pqs
+        ab_store["lookup"] = self.lookup
+        self.sources = list(self.lookup.keys())
+        self.all_categories = ["physics","general science","energy","earth and space","earth science","chemistry","biology","astronomy","math","computer science"]    
+        
+
     def say(self,text,voice = "",volume = 100,rate = 100,pitch = 100):
         text = text.replace("`","")
         utr = anvil.js.window.SpeechSynthesisUtterance(text)
@@ -30,6 +36,7 @@ class mainpage(mainpageTemplate):
         utr.rate = rate
         utr.pitch = pitch
         synth.speak(utr)
+        
     def read_question_click(self, **event_args):
         """This method is called when the button is clicked"""
         # self.say("hi")
