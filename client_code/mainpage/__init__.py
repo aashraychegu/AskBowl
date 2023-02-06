@@ -8,44 +8,6 @@ from anvil.tables import app_tables
 import time
 from anvil.js.window import speechSynthesis as synth
 from anvil.js.window import alert, prompt
-def store_to_local_storage():
-    try:
-        content = anvil.server.call("get_questions_as_dict")
-    except Exception as e:
-        import json
-
-        content = (
-            json.loads(
-                str(
-                    anvil.server.call("get_questions_as_str")
-                    .get_bytes()
-                    .decode("utf-8")
-                )
-            )
-        )
-        print(content)
-
-    try:
-        local_storage["questions"] = content
-    except:
-        pass
-    return content
-
-
-def get_questions_as_dict():
-    if anvil.server.is_app_online():
-        if (
-            local_storage.get("questions") is None
-            or (
-                local_storage.get("questions") is not None
-                and anvil.server.call_s("get_num_questions")
-                > len(local_storage["questions"])
-            )
-            or randint(0, 20) > 18
-        ):
-            return store_to_local_storage()
-    return local_storage["questions"]
-
 
 def clamp(num, minimum=0, maximum=200):
     return max(min(maximum, num), minimum)
