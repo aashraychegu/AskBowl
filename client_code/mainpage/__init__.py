@@ -9,6 +9,7 @@ import time
 from anvil.js.window import speechSynthesis as synth
 from anvil.js.window import alert, prompt
 from anvil_extras.storage import indexed_db
+import random
 
 def clamp(num, minimum=0, maximum=200):
     return max(min(maximum, num), minimum)
@@ -20,15 +21,34 @@ class mainpage(mainpageTemplate):
     def __init__(self, **properties):
         # Set Form properties and Data Bindings.
         self.init_components(**properties)
-        self.pqs, self.lookup = anvil.server.call("create_categories")
+        reset = False
         ab_store = indexed_db.create_store('ask_bowl')
-        ab_store["pqs"] = self.pqs
-        ab_store["lookup"] = self.lookup
+        if reset:
+            self.pqs = anvil.server.call('get_questions_as_list')
+            self.lookup = anvil.server.call("create_categories",self.pqs)
+            ab_store["pqs"] = self.pqs
+            ab_store["lookup"] = self.lookup
+        else:
+            self.pqs = ab_store["pqs"]
+            self.lookup = ab_store["lookup"] 
         self.sources = list(self.lookup.keys())
         self.all_categories = ["physics","general science","energy","earth and space","earth science","chemistry","biology","astronomy","math","computer science"]    
+        self.subject_dropdown.items = self.all_categories
+        self.sources_dropdown.items = self.sources
+        self.voices = {i.name:i for i in synth.getVoices()}
+        self.voices_dropdown.items = list(self.voices.keys())
+    def get_id(self, sources, categories):
+        filtered_sources = [i for i in self.lookup.keys() if i in sources]
+        good_indices = []
+        for i in filtered_sources:
+            for j in self.lookup[i]:
+                if j in categories:
+                    good_indices.extend(self.lookup[i][j])
+        return random.choice(good_indices)
+    def get_question(self,sources,categories):
+        return self.pqs[self.get_id(sources,categories)]
         
-
-    def say(self,text,voice = "",volume = 100,rate = 100,pitch = 100):
+    def say(self,text,voice,volume = 100,rate = 100,pitch = 100):
         text = text.replace("`","")
         utr = anvil.js.window.SpeechSynthesisUtterance(text)
         utr.voice = voice
@@ -40,18 +60,7 @@ class mainpage(mainpageTemplate):
     def read_question_click(self, **event_args):
         """This method is called when the button is clicked"""
         # self.say("hi")
-
-    def rate_pressed_enter(self, **event_args):
-        """This method is called when the user presses Enter in this text box"""
-        pass
-
-    def pause_reading_click(self, **event_args):
-        """This method is called when the button is clicked"""
-        pass
-
-    def resume_reading_click(self, **event_args):
-        """This method is called when the button is clicked"""
-        pass
+        self.say(self.get_question(self.sources,["earth science"])["question"],voice = self.voices[self.voices_dropdown.selected_value])
 
 
 

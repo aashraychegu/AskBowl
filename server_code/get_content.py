@@ -17,6 +17,7 @@ import random
 #
 link="https://scibowldb.com/api/questions"
 
+@anvil.server.callable
 @anvil.server.background_task
 def get_questions_as_list():
     raw_questions = anvil.http.request(link,json = True,method = "GET")["questions"]
@@ -49,8 +50,7 @@ def get_questions_as_list():
     return processed_questions
 
 @anvil.server.callable
-def create_categories():
-    pqs = get_questions_as_list()
+def create_categories(pqs):
     categories = {}
     for i,v in enumerate(pqs):
         if categories.get(v["source"],False) == False:
@@ -59,5 +59,5 @@ def create_categories():
             categories[v["source"]][v["category"]] = []
             # print("creating source: ",v["source"]," for category: ",v["category"])  
         categories[v["source"]][v["category"]].append(i)
-    return pqs, categories
+    return categories
         
