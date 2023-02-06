@@ -62,6 +62,11 @@ class mainpage(mainpageTemplate):
         # self.say("hi")
         self.say(self.get_question(self.sources,["earth science"])["question"],voice = self.voices[self.voices_dropdown.selected_value])
 
+    def show_answer_click(self, **event_args):
+        """This method is called when the button is clicked"""
+        pass
+
+
 
 
 

@@ -76,6 +76,7 @@ components:
       background: '', bold: true, underline: false, icon: 'fa:book'}
     name: show_answer
     layout_properties: {grid_position: 'UZLFIK,SJUMQY'}
+    event_bindings: {click: show_answer_click}
 - type: ColumnPanel
   properties: {col_widths: '{}'}
   name: column_panel_2
