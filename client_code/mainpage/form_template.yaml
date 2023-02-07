@@ -10,6 +10,10 @@ components:
   name: column_panel_1
   layout_properties: {slot: default}
   components:
+  - type: TextBox
+    properties: {}
+    name: text_box_2
+    layout_properties: {grid_position: 'UYUXHO,OSZGCI'}
   - type: RichText
     properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
       foreground: '', visible: true, font_size: 35, content: '# Question Information',
@@ -23,7 +27,7 @@ components:
       spacing_above: small, icon_align: left, spacing_below: small, italic: false,
       background: '', bold: true, underline: false, icon: 'fa:volume-up'}
     name: read_question
-    layout_properties: {grid_position: 'LXEBXF,ABXYAM'}
+    layout_properties: {grid_position: 'LXEBXF,ABXYAM', full_width_row: true}
     event_bindings: {click: read_question_click}
   - type: Button
     properties: {role: filled, align: full, tooltip: '', border: '', enabled: true,
@@ -31,7 +35,7 @@ components:
       spacing_above: small, icon_align: left, spacing_below: small, italic: false,
       background: '', bold: true, underline: false, icon: 'fa:forward'}
     name: next_question
-    layout_properties: {grid_position: 'LXEBXF,IUPOVP'}
+    layout_properties: {grid_position: 'LXEBXF,IUPOVP', full_width_row: true}
     event_bindings: {click: next_question_click}
   - type: Button
     properties: {role: filled, align: full, tooltip: '', border: '', enabled: true,
@@ -39,7 +43,7 @@ components:
       spacing_above: small, icon_align: left, spacing_below: small, italic: false,
       background: '', bold: true, underline: false, icon: 'fa:bookmark'}
     name: read_answer
-    layout_properties: {grid_position: 'LXEBXF,EFFSYM'}
+    layout_properties: {grid_position: 'LXEBXF,EFFSYM', full_width_row: true}
     event_bindings: {click: read_answer_click}
   - type: Button
     properties: {role: filled, align: full, tooltip: '', border: '', enabled: true,
@@ -47,7 +51,7 @@ components:
       icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
       underline: false, icon: 'fa:stop'}
     name: stop_reading
-    layout_properties: {grid_position: 'QPFQET,BAJDBA'}
+    layout_properties: {grid_position: 'QPFQET,BAJDBA', full_width_row: true}
     event_bindings: {click: stop_reading_click}
   - type: Button
     properties: {role: filled, align: full, tooltip: '', border: '', enabled: true,
@@ -55,7 +59,7 @@ components:
       icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
       underline: false, icon: 'fa:pause'}
     name: pause_reading
-    layout_properties: {grid_position: 'QPFQET,XEZSMC'}
+    layout_properties: {grid_position: 'QPFQET,XEZSMC', full_width_row: true}
     event_bindings: {click: pause_reading_click}
   - type: Button
     properties: {role: filled, align: full, tooltip: '', border: '', enabled: true,
@@ -63,25 +67,24 @@ components:
       icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
       underline: false, icon: 'fa:arrow-circle-o-right'}
     name: play_reading
-    layout_properties: {grid_position: 'QPFQET,TEYCYG'}
+    layout_properties: {grid_position: 'QPFQET,TEYCYG', full_width_row: true}
     event_bindings: {click: play_reading_click}
-  - type: TextArea
-    properties: {role: null, align: center, height: '100', tooltip: '', placeholder: 'Insert
-        your answer here. If this is a Multiple Choice, enter W,X,Y,Z. If this is
-        a Short Answer, enter your answer here. Then, press enter.', border: '', enabled: true,
-      foreground: '', visible: true, text: '', font_size: 30, auto_expand: false,
-      font: '', spacing_above: small, spacing_below: small, italic: false, background: '',
-      bold: true, underline: false}
-    name: answerbox
-    layout_properties: {grid_position: 'MJZPNN,ESYFRE'}
-    event_bindings: {change: answerbox_change}
+  - type: TextBox
+    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: 'If
+        this is a Multiple Choice, enter W,X,Y,Z. If this is a Short Answer, enter
+        your answer here. Then, press enter.', border: '', enabled: true, foreground: '',
+      visible: true, text: '', font_size: 30, font: '', spacing_above: small, type: text,
+      spacing_below: small, italic: false, background: '', bold: true, underline: false}
+    name: text_box_1
+    layout_properties: {grid_position: 'ACNLYS,YMLUED', full_width_row: true}
+    event_bindings: {pressed_enter: answerbox_pressed_enter}
   - type: Button
     properties: {role: filled, align: full, tooltip: '', border: '', enabled: true,
       foreground: '', visible: true, text: ' Show question', font_size: 50, font: '',
       spacing_above: small, icon_align: left, spacing_below: small, italic: false,
       background: '', bold: true, underline: false, icon: 'fa:question'}
     name: show_question
-    layout_properties: {grid_position: 'UZLFIK,UWULZK'}
+    layout_properties: {grid_position: 'UZLFIK,UWULZK', full_width_row: true}
     event_bindings: {click: show_question_click}
   - type: Button
     properties: {role: filled, align: full, tooltip: '', border: '', enabled: true,
@@ -89,7 +92,7 @@ components:
       spacing_above: small, icon_align: left, spacing_below: small, italic: false,
       background: '', bold: true, underline: false, icon: 'fa:book'}
     name: show_answer
-    layout_properties: {grid_position: 'UZLFIK,SJUMQY'}
+    layout_properties: {grid_position: 'UZLFIK,SJUMQY', full_width_row: true}
     event_bindings: {click: show_answer_click}
   - type: RichText
     properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
@@ -270,3 +273,7 @@ components:
       spacing_below: small, data: null, background: '', format: markdown}
     name: answer_box
     layout_properties: {grid_position: 'LZWOUF,KTPHQH'}
+- type: TextBox
+  properties: {}
+  name: text_box_2_copy
+  layout_properties: {grid_position: 'UYUXHO,OSZGCI'}

@@ -15,7 +15,7 @@ import time
 def clamp(num, minimum=0, maximum=200):
     return max(min(maximum, num), minimum)
 
-def mc_choice(message):
+def sa_choice(message):
     return prompt(message).upper()[0] == "Y"
     
 class mainpage(mainpageTemplate):
@@ -122,6 +122,21 @@ class mainpage(mainpageTemplate):
     def answerbox_change(self, **event_args):
         """This method is called when the text in this text area is edited"""
         print(event_args)
+
+    def answerbox_pressed_enter(self, **event_args):
+        """This method is called when the user presses Enter in this text box"""
+        is_correct = False
+        if self.current_question["format"][0].lower() == "s":
+            is_correct = self.grade_sa(self.answerbox.content,self.current_question["answer"])
+        else:
+            is_correct = self.grade_mc(self.answerbox.content,self.current_question["answer"])
+            correct_signifier = "correct" if is_correct else "incorrect"          
+            text = f"Your answer ({self.answerbox.content}) is {correct_signifier}.\n The correct answer is {self.current_question['answer']}"
+            prompt(text)
+    def grade_mc(self, answer,correct):
+        return answer[0].lower() == correct[0].lower()
+    def grade_sa(self,answer,correct):
+        return sa_choice(f"You answered {answer}\nThe correct answer is {correct}\nIf your answer is correct, type 'yes'")
 
 
 
