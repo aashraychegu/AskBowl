@@ -12,24 +12,24 @@ components:
   components:
   - type: TextBox
     properties: {role: null, align: center, hide_text: false, tooltip: '', placeholder: '',
-      border: '', enabled: false, foreground: '', visible: true, text: 'Correct Tossups: ',
+      border: '', enabled: false, foreground: '', visible: true, text: 'Tossups: ',
       font_size: 20, font: '', spacing_above: none, type: text, spacing_below: small,
       italic: false, background: '', bold: true, underline: false}
     name: tossups_text
     layout_properties: {grid_position: 'UYUXHO,OSZGCI', full_width_row: true}
   - type: TextBox
-    properties: {role: null, align: center, hide_text: false, tooltip: '', placeholder: 'Correct
-        Bonuses:', border: '', enabled: false, foreground: '', visible: true, text: '',
-      font_size: 20, font: '', spacing_above: none, type: text, spacing_below: small,
-      italic: false, background: '', bold: true, underline: false}
-    name: bonuses_text
+    properties: {role: null, align: center, hide_text: false, tooltip: '', placeholder: 'Bonuses:',
+      border: '', enabled: false, foreground: '', visible: true, text: '', font_size: 20,
+      font: '', spacing_above: none, type: text, spacing_below: small, italic: false,
+      background: '', bold: true, underline: false}
+    name: bonus_text
     layout_properties:
       col_widths: {}
       grid_position: UYUXHO,UMSMNM
       full_width_row: true
   - type: TextBox
     properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: Question Information,
-      border: '', enabled: false, foreground: '', visible: true, text: '', font_size: 20,
+      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: 20,
       font: '', spacing_above: none, type: text, spacing_below: small, italic: true,
       background: '', bold: false, underline: false}
     name: question_info
@@ -39,7 +39,7 @@ components:
       full_width_row: true
   - type: Link
     properties: {role: null, url: '', align: center, tooltip: '', border: '', foreground: '',
-      visible: true, text: Click here to research the question, font_size: 20, wrap_on: mobile,
+      visible: true, text: Click to research this question, font_size: 20, wrap_on: mobile,
       font: '', col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '',
       spacing_below: small, italic: false, background: '', bold: true, underline: true,
       icon: ''}
@@ -99,7 +99,7 @@ components:
         your answer here. Then, press enter.', border: '', enabled: true, foreground: '',
       visible: true, text: '', font_size: 30, font: '', spacing_above: small, type: text,
       spacing_below: small, italic: false, background: '', bold: true, underline: false}
-    name: text_box_1
+    name: answerbox
     layout_properties: {grid_position: 'ACNLYS,YMLUED', full_width_row: true}
     event_bindings: {pressed_enter: answerbox_pressed_enter}
   - type: Button

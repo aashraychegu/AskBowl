@@ -31,7 +31,8 @@ class mainpage(mainpageTemplate):
         self.subject_dropdown.selected = [i["key"] for i in self.subject_dropdown.items]
         self.voices = {i.name:i for i in synth.getVoices()}
         self.voices_dropdown.items = list(self.voices.keys())
-        self.current_question = self.load_new_question()
+        self.current_question = None
+        self.next_question_click()
         self.last_time = time.time()
         self.tossups = 0
         self.bonuses = 0
@@ -87,10 +88,11 @@ class mainpage(mainpageTemplate):
         self.current_question = self.load_new_question()
         self.question_box.content = ""
         self.answer_box.content = ""
-
+        self.question_info.text = f"{self.current_question['uri'][-4:]} - {self.current_question['source']} - {self.current_question['format']} - {self.current_question['type']}"
+        print(f"{self.current_question['uri'][-4:]} - {self.current_question['source']} - {self.current_question['format']}")
     def read_question_click(self, **event_args):
         """This method is called when the button is clicked"""
-        say(self.current_question["question"])
+        self.say(self.current_question["format"] + " " + self.current_question["category"] + " " + self.current_question["question"])
         self.last_time = time.time()
         
 
@@ -131,12 +133,12 @@ class mainpage(mainpageTemplate):
         """This method is called when the user presses Enter in this text box"""
         is_correct = False
         if self.current_question["format"][0].lower() == "s":
-            is_correct = self.grade_sa(self.answerbox.content,self.current_question["answer"])
+            is_correct = self.grade_sa(self.answerbox.text,self.current_question["answer"])
         else:
-            is_correct = self.grade_mc(self.answerbox.content,self.current_question["answer"])
+            is_correct = self.grade_mc(self.answerbox.text,self.current_question["answer"])
             correct_signifier = "correct" if is_correct else "incorrect"          
-            text = f"Your answer ({self.answerbox.content}) is {correct_signifier}.\n The correct answer is {self.current_question['answer']}"
-            prompt(text)
+            text = f"Your answer ({self.answerbox.text}) is {correct_signifier}.\n The correct answer is {self.current_question['answer']}"
+            alert(text)
         if self.current_question["type"] == "tossup":
             self.correct_tossups += int(is_correct);
             self.tossups += 1
