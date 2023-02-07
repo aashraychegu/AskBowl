@@ -5,22 +5,46 @@ container:
 components:
 - type: ColumnPanel
   properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
-    wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{}',
+    wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{"OSZGCI":15,"UMSMNM":15,"IIUVYO":35,"VSWZJG":22}',
     spacing_below: small, background: ''}
   name: column_panel_1
   layout_properties: {slot: default}
   components:
   - type: TextBox
-    properties: {}
-    name: text_box_2
-    layout_properties: {grid_position: 'UYUXHO,OSZGCI'}
-  - type: RichText
-    properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
-      foreground: '', visible: true, font_size: 35, content: '# Question Information',
-      font: '', spacing_above: small, spacing_below: small, data: null, background: '',
-      format: markdown}
-    name: rich_text_4
-    layout_properties: {grid_position: 'LZWOUF,KTPHQH'}
+    properties: {role: null, align: center, hide_text: false, tooltip: '', placeholder: '',
+      border: '', enabled: false, foreground: '', visible: true, text: 'Correct Tossups: ',
+      font_size: 20, font: '', spacing_above: none, type: text, spacing_below: small,
+      italic: false, background: '', bold: true, underline: false}
+    name: tossups_text
+    layout_properties: {grid_position: 'UYUXHO,OSZGCI', full_width_row: true}
+  - type: TextBox
+    properties: {role: null, align: center, hide_text: false, tooltip: '', placeholder: 'Correct
+        Bonuses:', border: '', enabled: false, foreground: '', visible: true, text: '',
+      font_size: 20, font: '', spacing_above: none, type: text, spacing_below: small,
+      italic: false, background: '', bold: true, underline: false}
+    name: bonuses_text
+    layout_properties:
+      col_widths: {}
+      grid_position: UYUXHO,UMSMNM
+      full_width_row: true
+  - type: TextBox
+    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: Question Information,
+      border: '', enabled: false, foreground: '', visible: true, text: '', font_size: 20,
+      font: '', spacing_above: none, type: text, spacing_below: small, italic: true,
+      background: '', bold: false, underline: false}
+    name: question_info
+    layout_properties:
+      col_widths: {}
+      grid_position: UYUXHO,IIUVYO
+      full_width_row: true
+  - type: Link
+    properties: {role: null, url: '', align: center, tooltip: '', border: '', foreground: '',
+      visible: true, text: Click here to research the question, font_size: 20, wrap_on: mobile,
+      font: '', col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '',
+      spacing_below: small, italic: false, background: '', bold: true, underline: true,
+      icon: ''}
+    name: question_link
+    layout_properties: {grid_position: 'UYUXHO,VSWZJG', full_width_row: true}
   - type: Button
     properties: {role: filled, align: full, tooltip: '', border: '', enabled: true,
       foreground: '', visible: true, text: '  read question', font_size: 50, font: '',
@@ -273,7 +297,3 @@ components:
       spacing_below: small, data: null, background: '', format: markdown}
     name: answer_box
     layout_properties: {grid_position: 'LZWOUF,KTPHQH'}
-- type: TextBox
-  properties: {}
-  name: text_box_2_copy
-  layout_properties: {grid_position: 'UYUXHO,OSZGCI'}

@@ -33,6 +33,10 @@ class mainpage(mainpageTemplate):
         self.voices_dropdown.items = list(self.voices.keys())
         self.current_question = self.load_new_question()
         self.last_time = time.time()
+        self.tossups = 0
+        self.bonuses = 0
+        self.correct_tossups = 0
+        self.correct_bonuses = 0
     def init_db(self,reset):
         ab_store = indexed_db.create_store('ask_bowl')
         if reset:
@@ -133,6 +137,16 @@ class mainpage(mainpageTemplate):
             correct_signifier = "correct" if is_correct else "incorrect"          
             text = f"Your answer ({self.answerbox.content}) is {correct_signifier}.\n The correct answer is {self.current_question['answer']}"
             prompt(text)
+        if self.current_question["type"] == "tossup":
+            self.correct_tossups += int(is_correct);
+            self.tossups += 1
+        if self.current_question["type"] == "bonus":
+            self.correct_bonuses += int(is_correct);
+            self.bonuses += 1
+        self.tossups_text.text = f"Correct Tossups: {self.correct_tossups}/{self.tossups}"
+        self.bonus_text.text = f"Correct Bonuses: {self.correct_bonuses}/{self.bonuses}"
+        
+            
     def grade_mc(self, answer,correct):
         return answer[0].lower() == correct[0].lower()
     def grade_sa(self,answer,correct):
