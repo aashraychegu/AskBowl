@@ -10,6 +10,7 @@ from anvil.js.window import speechSynthesis as synth
 from anvil.js.window import alert, prompt
 from anvil_extras.storage import indexed_db
 import random
+import time
 
 def clamp(num, minimum=0, maximum=200):
     return max(min(maximum, num), minimum)
@@ -21,16 +22,7 @@ class mainpage(mainpageTemplate):
     def __init__(self, **properties):
         # Set Form properties and Data Bindings.
         self.init_components(**properties)
-        reset = False
-        ab_store = indexed_db.create_store('ask_bowl')
-        if reset:
-            self.pqs = anvil.server.call('get_questions_as_list')
-            self.lookup = anvil.server.call("create_categories",self.pqs)
-            ab_store["pqs"] = self.pqs
-            ab_store["lookup"] = self.lookup
-        else:
-            self.pqs = ab_store["pqs"]
-            self.lookup = ab_store["lookup"] 
+        self.init_db(False)
         self.sources = list(self.lookup.keys())
         self.all_categories = ["physics","general science","energy","earth and space","earth science","chemistry","biology","astronomy","math","computer science"]    
         self.subject_dropdown.items = [{"key": i, "value": i, "enabled": True} for i in self.all_categories]
@@ -40,7 +32,18 @@ class mainpage(mainpageTemplate):
         self.voices = {i.name:i for i in synth.getVoices()}
         self.voices_dropdown.items = list(self.voices.keys())
         self.current_question = self.load_new_question()
-        
+        self.last_time = time.time()
+    def init_db(self,reset):
+        ab_store = indexed_db.create_store('ask_bowl')
+        if reset:
+            self.pqs = anvil.server.call('get_questions_as_list')
+            self.lookup = anvil.server.call("create_categories",self.pqs)
+            ab_store["pqs"] = self.pqs
+            ab_store["lookup"] = self.lookup
+        else:
+            self.pqs = ab_store["pqs"]
+            self.lookup = ab_store["lookup"] 
+            
     def get_id(self, sources, categories):
         filtered_sources = [i for i in self.lookup.keys() if i in sources]
         good_indices = []
@@ -74,13 +77,18 @@ class mainpage(mainpageTemplate):
         synth.speak(utr)
     def load_new_question(self):
         return self.get_question([i["key"] for i in self.subject_dropdown.items],[i["key"] for i in self.sources_dropdown.items])
+        
     def next_question_click(self, **event_args):
         """This method is called when the button is clicked"""
         self.current_question = self.load_new_question()
+        self.question_box.content = ""
+        self.answer_box.content = ""
 
     def read_question_click(self, **event_args):
         """This method is called when the button is clicked"""
         say(self.current_question["question"])
+        self.last_time = time.time()
+        
 
     def read_answer_click(self, **event_args):
         """This method is called when the button is clicked"""
@@ -88,16 +96,37 @@ class mainpage(mainpageTemplate):
 
     def show_question_click(self, **event_args):
         """This method is called when the button is clicked"""
-        self.question_box.content = f"""
-        # Question:
-        **{self.current_question["question"]}**
-        """
+        self.question_box.content = f"""{self.current_question["question"]}"""
     def show_answer_click(self, **event_args):
         """This method is called when the button is clicked"""
-        self.question_box.content = f"""
-        # Answer:
-        **{self.current_question["Answer"]}**
-        """
+        self.answer_box.content = f"""{self.current_question["answer"]}"""
+
+    def stop_reading_click(self, **event_args):
+        """This method is called when the button is clicked"""
+        synth.pause()
+        synth.cancel()
+        synth.stop()
+
+    def pause_reading_click(self, **event_args):
+        """This method is called when the button is clicked"""
+        synth.pause()
+
+    def play_reading_click(self, **event_args):
+        """This method is called when the button is clicked"""
+        synth.resume()
+
+    def refresh_click(self, **event_args):
+        """This method is called when the button is clicked"""
+        print(self.current_question)
+
+    def answerbox_change(self, **event_args):
+        """This method is called when the text in this text area is edited"""
+        print(event_args)
+
+
+
+
+
 
 
 
