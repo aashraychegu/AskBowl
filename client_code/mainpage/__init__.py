@@ -38,6 +38,11 @@ class mainpage(mainpageTemplate):
         self.bonuses = 0
         self.correct_tossups = 0
         self.correct_bonuses = 0
+        self.tracked_tossups = {i:0 for i in self.all_categories}
+        self.tracked_bonuses = {i:0 for i in self.all_categories}
+        self.total_tossups = {i:0 for i in self.all_categories}
+        self.total_bonuses = {i:0 for i in self.all_categories}
+        
     def init_db(self,reset):
         ab_store = indexed_db.create_store('ask_bowl')
         if reset:
@@ -89,7 +94,6 @@ class mainpage(mainpageTemplate):
         self.question_box.content = ""
         self.answer_box.content = ""
         self.question_info.text = f"{self.current_question['uri'][-4:]} - {self.current_question['source']} - {self.current_question['format']} - {self.current_question['type']}"
-        print(f"{self.current_question['uri'][-4:]} - {self.current_question['source']} - {self.current_question['format']}")
     def read_question_click(self, **event_args):
         """This method is called when the button is clicked"""
         self.say(self.current_question["format"] + " " + self.current_question["category"] + " " + self.current_question["question"])
@@ -142,11 +146,15 @@ class mainpage(mainpageTemplate):
         if self.current_question["type"] == "tossup":
             self.correct_tossups += int(is_correct);
             self.tossups += 1
+            self.tracked_tossups[self.current_question["category"]] += int(is_correct)
+            self.total_tossups[self.current_question["category"]] += 1
         if self.current_question["type"] == "bonus":
             self.correct_bonuses += int(is_correct);
             self.bonuses += 1
-        self.tossups_text.text = f"Correct Tossups: {self.correct_tossups}/{self.tossups}"
-        self.bonus_text.text = f"Correct Bonuses: {self.correct_bonuses}/{self.bonuses}"
+            self.tracked_bonuses[self.current_question["category"]] += int(is_correct)
+            self.total_bonuses[self.current_question["category"]] += 1
+        self.tossups_text.text = f"Tossups: {self.correct_tossups}/{self.tossups}"
+        self.bonus_text.text = f"Bonuses: {self.correct_bonuses}/{self.bonuses}"
         
             
     def grade_mc(self, answer,correct):

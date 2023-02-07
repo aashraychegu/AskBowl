@@ -29,7 +29,7 @@ components:
       full_width_row: true
   - type: TextBox
     properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: Question Information,
-      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: 20,
+      border: '', enabled: false, foreground: '', visible: true, text: '', font_size: 20,
       font: '', spacing_above: none, type: text, spacing_below: small, italic: true,
       background: '', bold: false, underline: false}
     name: question_info
