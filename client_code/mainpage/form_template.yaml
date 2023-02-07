@@ -297,3 +297,7 @@ components:
       spacing_below: small, data: null, background: '', format: markdown}
     name: answer_box
     layout_properties: {grid_position: 'LZWOUF,KTPHQH'}
+  - type: Plot
+    properties: {height: 450}
+    name: tplot
+    layout_properties: {width: 412}

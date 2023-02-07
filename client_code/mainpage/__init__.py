@@ -11,6 +11,7 @@ from anvil.js.window import alert, prompt
 from anvil_extras.storage import indexed_db
 import random
 import time
+from plotly import graph_objects as go
 
 def clamp(num, minimum=0, maximum=200):
     return max(min(maximum, num), minimum)
@@ -42,7 +43,11 @@ class mainpage(mainpageTemplate):
         self.tracked_bonuses = {i:0 for i in self.all_categories}
         self.total_tossups = {i:0 for i in self.all_categories}
         self.total_bonuses = {i:0 for i in self.all_categories}
-        
+        self.tplot.data = self.update_graphs()
+
+    def update_graphs(self):
+        return [go.Bar(x = list(self.tracked_tossups.keys()),y = list(self.tracked_tossups.values())),go.Bar(x = list(self.tracked_bonuses.keys()),y = list(self.tracked_bonuses.values()))]
+    
     def init_db(self,reset):
         ab_store = indexed_db.create_store('ask_bowl')
         if reset:
@@ -93,7 +98,7 @@ class mainpage(mainpageTemplate):
         self.current_question = self.load_new_question()
         self.question_box.content = ""
         self.answer_box.content = ""
-        self.question_info.text = f"{self.current_question['uri'][-4:]} - {self.current_question['source']} - {self.current_question['format']} - {self.current_question['type']}"
+        self.question_info.text = f"{self.current_question['uri'][-4:].replace('/','0')} - {self.current_question['source']} - {self.current_question['format']} - {self.current_question['type']}"
     def read_question_click(self, **event_args):
         """This method is called when the button is clicked"""
         self.say(self.current_question["format"] + " " + self.current_question["category"] + " " + self.current_question["question"])
@@ -129,12 +134,12 @@ class mainpage(mainpageTemplate):
         """This method is called when the button is clicked"""
         print(self.current_question)
 
-    def answerbox_change(self, **event_args):
-        """This method is called when the text in this text area is edited"""
-        print(event_args)
 
     def answerbox_pressed_enter(self, **event_args):
         """This method is called when the user presses Enter in this text box"""
+        if self.answerbox.text[0] == "/":
+            self.quickcode(self.answerbox.text.replace("/",""))
+            return 0
         is_correct = False
         if self.current_question["format"][0].lower() == "s":
             is_correct = self.grade_sa(self.answerbox.text,self.current_question["answer"])
@@ -155,8 +160,21 @@ class mainpage(mainpageTemplate):
             self.total_bonuses[self.current_question["category"]] += 1
         self.tossups_text.text = f"Tossups: {self.correct_tossups}/{self.tossups}"
         self.bonus_text.text = f"Bonuses: {self.correct_bonuses}/{self.bonuses}"
+        self.tplot.data = self.update_graphs()
+
+    def quickcode(self,code):
+        function_map = {
+            "n":self.next_question_click,
+            "r":self.read_question_click,
+            "s":self.stop_reading_click,
+            "p":self.pause_reading_click,
+            "l":self.play_reading_click,
+            "q":self.show_question_click,
+            "a":self.show_answer_click,
+        }
+        function_map.get(code.lower(),self.read_question_click)()
+        self.answerbox.text = ""
         
-            
     def grade_mc(self, answer,correct):
         return answer[0].lower() == correct[0].lower()
     def grade_sa(self,answer,correct):
