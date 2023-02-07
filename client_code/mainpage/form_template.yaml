@@ -78,7 +78,7 @@ components:
     layout_properties: {grid_position: 'UZLFIK,SJUMQY'}
     event_bindings: {click: show_answer_click}
 - type: ColumnPanel
-  properties: {col_widths: '{}'}
+  properties: {col_widths: '{"IYBFUU":15,"FMUBNK":45,"AIPWJL":15,"HCRBGN":45}'}
   name: column_panel_2
   layout_properties: {slot: left-nav}
   components:
@@ -172,7 +172,7 @@ components:
         components:
         - type: RichText
           properties: {role: null, align: center, tooltip: '', enable_slots: true,
-            border: '', foreground: '', visible: true, font_size: 30, content: Ritch,
+            border: '', foreground: '', visible: true, font_size: 30, content: Pitch,
             font: '', spacing_above: small, spacing_below: none, data: null, background: '',
             format: markdown}
           name: pitch
@@ -186,14 +186,21 @@ components:
         name: volume_copy_2
         layout_properties: {grid_position: 'COPNQE,ARDSVO', slot: logo, full_width_row: false}
         event_bindings: {pressed_enter: text_box_1_pressed_enter}
+  - type: RichText
+    properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
+      foreground: '', visible: true, font_size: 16, content: 'Sources: ', font: '',
+      spacing_above: small, spacing_below: none, data: null, background: '', format: markdown}
+    name: pitch_copy
+    layout_properties: {grid_position: 'UPYRLY,IYBFUU', full_width_row: true}
+    components: []
   - type: form:C6ZZPAPN4YYF5NVJ:MultiSelectDropDown
     properties:
       width: ''
       align: center
-      enable_filtering: null
+      enable_filtering: true
       placeholder: None Selected
       enabled: true
-      enable_select_all: false
+      enable_select_all: true
       items: ['']
       visible: true
       spacing_above: small
@@ -202,9 +209,16 @@ components:
     name: sources_dropdown
     layout_properties: {grid_position: 'UPYRLY,FMUBNK', full_width_row: true}
     event_bindings: {change: multi_select_drop_down_1_change}
+  - type: RichText
+    properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
+      foreground: '', visible: true, font_size: 16, content: 'Subjects: ', font: '',
+      spacing_above: small, spacing_below: none, data: null, background: '', format: markdown}
+    name: pitch_copy_2
+    layout_properties: {grid_position: 'TGOAYI,AIPWJL', full_width_row: true}
+    components: []
   - type: form:C6ZZPAPN4YYF5NVJ:MultiSelectDropDown
-    properties: {width: '', align: left, enable_filtering: null, placeholder: None Selected,
-      enabled: true, enable_select_all: false, items: null, visible: true, spacing_above: small,
+    properties: {width: '', align: center, enable_filtering: true, placeholder: None Selected,
+      enabled: true, enable_select_all: true, items: null, visible: true, spacing_above: small,
       spacing_below: small, multiple: true}
     name: subject_dropdown
     layout_properties: {grid_position: 'TGOAYI,HCRBGN', full_width_row: true}
@@ -227,11 +241,3 @@ components:
     spacing_above: small, spacing_below: small, data: null, background: '', format: markdown}
   name: answer_box
   layout_properties: {grid_position: 'LZWOUF,KTPHQH'}
-- type: form:C6ZZPAPN4YYF5NVJ:MultiSelectDropDown
-  properties: {}
-  name: multi_select_drop_down_1_copy
-  layout_properties: {grid_position: 'GFIYFB,UOLCCS'}
-- type: form:C6ZZPAPN4YYF5NVJ:MultiSelectDropDown
-  properties: {}
-  name: multi_select_drop_down_1_copy_2
-  layout_properties: {grid_position: 'AKYYVW,DAOHHT'}

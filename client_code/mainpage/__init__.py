@@ -33,10 +33,13 @@ class mainpage(mainpageTemplate):
             self.lookup = ab_store["lookup"] 
         self.sources = list(self.lookup.keys())
         self.all_categories = ["physics","general science","energy","earth and space","earth science","chemistry","biology","astronomy","math","computer science"]    
-        self.subject_dropdown.items = self.all_categories
-        self.sources_dropdown.items = self.sources
+        self.subject_dropdown.items = [{"key": i, "value": i, "enabled": True} for i in self.all_categories]
+        self.subject_dropdown.selected = self.subject_dropdown.items
+        self.sources_dropdown.items = [{"key": i, "value": i, "enabled": True} for i in self.sources]
+        self.sources_dropdown.selected = self.sources_dropdown.items
         self.voices = {i.name:i for i in synth.getVoices()}
         self.voices_dropdown.items = list(self.voices.keys())
+        
     def get_id(self, sources, categories):
         filtered_sources = [i for i in self.lookup.keys() if i in sources]
         good_indices = []
@@ -57,16 +60,6 @@ class mainpage(mainpageTemplate):
         utr.pitch = pitch
         synth.speak(utr)
         
-    def read_question_click(self, **event_args):
-        """This method is called when the button is clicked"""
-        # self.say("hi")
-        self.say(self.get_question(self.sources,["earth science"])["question"],voice = self.voices[self.voices_dropdown.selected_value])
-
-    def show_answer_click(self, **event_args):
-        """This method is called when the button is clicked"""
-        pass
-
-
 
 
 
