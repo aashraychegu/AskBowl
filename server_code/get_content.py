@@ -62,6 +62,6 @@ def create_categories(pqs):
     return categories
 
 @anvil.server.callable
-def record_vistors():
-    anvil.server.HttpRequest("")
+def record_visitors():
+    anvil.http.request("https://askbowl3backend.anvil.app/_/api/record_visitors")
         

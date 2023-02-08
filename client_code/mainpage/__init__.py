@@ -23,7 +23,12 @@ class mainpage(mainpageTemplate):
     def __init__(self, **properties):
         # Set Form properties and Data Bindings.
         self.init_components(**properties)
-        self.init_db(False)
+        anvil.server.call('record_visitors')
+        if anvil.server.is_app_online():
+            self.init_db(True)
+        else:
+            self.init_db(False)
+
         self.sources = list(self.lookup.keys())
         self.all_categories = ["physics","general science","energy","earth and space","earth science","chemistry","biology","astronomy","math","computer science"]    
         self.subject_dropdown.items = [{"key": i, "value": i, "enabled": True} for i in self.all_categories]
@@ -66,7 +71,7 @@ class mainpage(mainpageTemplate):
         ab_store = indexed_db.create_store('ask_bowl')
         if reset:
             self.pqs = anvil.server.call('get_questions_as_list')
-            self.lookup = anvil.server.call("create_categories",self.pqs)
+            self.lookup = anvil.server.call("create_categories",self.pqs)                
             ab_store["pqs"] = self.pqs
             ab_store["lookup"] = self.lookup
         else:
