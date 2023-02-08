@@ -47,7 +47,12 @@ class mainpage(mainpageTemplate):
 
     def update_graphs(self):
         return [go.Bar(x = list(self.tracked_tossups.keys()),y = list(self.tracked_tossups.values())),go.Bar(x = list(self.tracked_bonuses.keys()),y = list(self.tracked_bonuses.values()))]
-    
+    def cleanup(foo):
+        def inner(self):
+            print("cleaning up")
+            self.stop_reading_click()
+            foo(self)
+        return inner
     def init_db(self,reset):
         ab_store = indexed_db.create_store('ask_bowl')
         if reset:
@@ -92,13 +97,14 @@ class mainpage(mainpageTemplate):
         synth.speak(utr)
     def load_new_question(self):
         return self.get_question([i["key"] for i in self.subject_dropdown.items],[i["key"] for i in self.sources_dropdown.items])
-        
+    @cleanup
     def next_question_click(self, **event_args):
         """This method is called when the button is clicked"""
         self.current_question = self.load_new_question()
         self.question_box.content = ""
         self.answer_box.content = ""
         self.question_info.text = f"{self.current_question['uri'][-4:].replace('/','0')} - {self.current_question['source']} - {self.current_question['format']} - {self.current_question['type']}"
+    
     def read_question_click(self, **event_args):
         """This method is called when the button is clicked"""
         self.say(self.current_question["format"] + " " + self.current_question["category"] + " " + self.current_question["question"])
