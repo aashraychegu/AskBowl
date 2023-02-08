@@ -60,4 +60,8 @@ def create_categories(pqs):
             # print("creating source: ",v["source"]," for category: ",v["category"])  
         categories[v["source"]][v["category"]].append(i)
     return categories
+
+@anvil.server.callable
+def record_vistors():
+    anvil.server.HttpRequest("")
         
