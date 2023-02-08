@@ -6,15 +6,17 @@ services:
   client_config: {}
   server_config: {}
 startup: {type: form, module: mainpage}
-package_name: ask_bowl_4
+package_name: Ask_Bowl
 allow_embedding: false
-name: ask bowl 4
+name: Ask Bowl
 runtime_options:
   version: 2
   client_version: '3'
   server_version: python3-sandbox
   server_spec: null
   server_spec_disabled: {base: python310-minimal, requirements: ''}
+metadata: {title: Ask Bowl, description: This is an app used to help students practice for national science bowl questions,
+  logo_img: 'asset:74a0caf676e34f0cbe3b8ed2d178486c.png'}
 startup_form: null
 native_deps: {head_html: '<link href="https://fonts.googleapis.com/css2?family=Eczar:wght@400;600&family=Roboto+Condensed:wght@300;400;700&display=swap"
     rel="stylesheet" rel="preload" as="font" crossorigin="anonymous">'}
