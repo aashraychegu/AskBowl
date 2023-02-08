@@ -7,7 +7,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import time
 from anvil.js.window import speechSynthesis as synth
-from anvil.js.window import alert, prompt
+from anvil.js.window import alert, prompt, confirm
 from anvil_extras.storage import indexed_db
 import random
 import time
@@ -24,10 +24,7 @@ class mainpage(mainpageTemplate):
         # Set Form properties and Data Bindings.
         self.init_components(**properties)
         anvil.server.call('record_visitors')
-        if anvil.server.is_app_online():
-            self.init_db(True)
-        else:
-            self.init_db(False)
+        self.init_db(confirm("Would you like to resync the database?\nIf this is your first time hit OK"))
 
         self.sources = list(self.lookup.keys())
         self.all_categories = ["physics","general science","energy","earth and space","earth science","chemistry","biology","astronomy","math","computer science"]    
@@ -63,7 +60,7 @@ class mainpage(mainpageTemplate):
         def inner(self,*args,**kwargs):
             # print("cleaning up with",args,kwargs)
             self.stop_reading_click()
-            foo(self)
+            foo(self,*args,**kwargs)
             self.stop_reading_click()
             synth.resume()
         return inner
@@ -102,16 +99,17 @@ class mainpage(mainpageTemplate):
         chosen_index = random.choice(indices)
         return self.pqs[chosen_index]
         
-    @cleanup  
     def say(self,text,voice = None,volume = 100,rate = 100,pitch = 100):
         text = text.replace("`","")
         if voice == None:
             voice = self.voices[self.voices_dropdown.selected_value]
+        print(text)
         utr = anvil.js.window.SpeechSynthesisUtterance(text)
         utr.voice = voice
         utr.volume = volume
         utr.rate = rate
         utr.pitch = pitch
+        print(utr.voice,utr.volume, utr.rate,utr.pitch,utr)
         synth.speak(utr)
     def load_new_question(self):
         return self.get_question(self.subject_dropdown.selected,self.sources_dropdown.selected)
