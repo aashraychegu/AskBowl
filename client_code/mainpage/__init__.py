@@ -32,6 +32,10 @@ class mainpage(mainpageTemplate):
         self.subject_dropdown.selected = [i["key"] for i in self.subject_dropdown.items]
         self.voices = {i.name:i for i in synth.getVoices()}
         self.voices_dropdown.items = list(self.voices.keys())
+        for i in self.voices_dropdown.items:
+            if "english" in i.lower() and "online" in i.lower():
+                self.voices_dropdown.selected_value = i
+                break
         self.current_question = None
         self.next_question_click()
         self.last_time = time.time()
@@ -43,15 +47,20 @@ class mainpage(mainpageTemplate):
         self.tracked_bonuses = {i:0 for i in self.all_categories}
         self.total_tossups = {i:0 for i in self.all_categories}
         self.total_bonuses = {i:0 for i in self.all_categories}
+        self.tplot.layout.template = "material_dark"
         self.tplot.data = self.update_graphs()
+        self.past_questions.items = []
 
     def update_graphs(self):
-        return [go.Bar(x = list(self.tracked_tossups.keys()),y = list(self.tracked_tossups.values())),go.Bar(x = list(self.tracked_bonuses.keys()),y = list(self.tracked_bonuses.values()))]
+        return [go.Bar(x = list(self.tracked_tossups.keys()),y = list(self.tracked_tossups.values()),name = "Tossups"),
+                go.Bar(x = list(self.tracked_bonuses.keys()),y = list(self.tracked_bonuses.values()),name = "Bonuses",)]
     def cleanup(foo):
-        def inner(self):
-            print("cleaning up")
+        def inner(self,*args,**kwargs):
+            # print("cleaning up with",args,kwargs)
             self.stop_reading_click()
             foo(self)
+            self.stop_reading_click()
+            synth.resume()
         return inner
     def init_db(self,reset):
         ab_store = indexed_db.create_store('ask_bowl')
@@ -66,6 +75,7 @@ class mainpage(mainpageTemplate):
             
     def get_id(self, sources, categories):
         filtered_sources = [i for i in self.lookup.keys() if i in sources]
+        # print(filtered_sources)
         good_indices = []
         for i in filtered_sources:
             for j in self.lookup[i]:
@@ -73,8 +83,11 @@ class mainpage(mainpageTemplate):
                     good_indices.extend(self.lookup[i][j])
         return good_indices
         
-    def get_question(self,sources,categories):
+    def get_question(self,categories,sources):
         indices = self.get_id(sources,categories)
+        # print(len(sources),len(self.sources))
+        # print(len(categories),len(self.all_categories))
+        # print("0",len(indices))
         if indices == []:
             indices = self.get_id(sources,self.all_categories)
         if indices == []:
@@ -82,9 +95,9 @@ class mainpage(mainpageTemplate):
         if indices == []:
             indices = self.get_id(self.sources,self.all_categories)
         chosen_index = random.choice(indices)
-        print(chosen_index)
         return self.pqs[chosen_index]
         
+    @cleanup  
     def say(self,text,voice = None,volume = 100,rate = 100,pitch = 100):
         text = text.replace("`","")
         if voice == None:
@@ -96,37 +109,42 @@ class mainpage(mainpageTemplate):
         utr.pitch = pitch
         synth.speak(utr)
     def load_new_question(self):
-        return self.get_question([i["key"] for i in self.subject_dropdown.items],[i["key"] for i in self.sources_dropdown.items])
+        return self.get_question(self.subject_dropdown.selected,self.sources_dropdown.selected)
     @cleanup
     def next_question_click(self, **event_args):
         """This method is called when the button is clicked"""
+        if self.current_question is not None:
+            self.past_questions.items = self.past_questions.items + [{"qtext":f"## {self.question_info.text}\n## {self.current_question['question']}\n## {self.current_question['answer']}","qlink":self.question_link.url}]
+        # print(self.past_questions.items)
         self.current_question = self.load_new_question()
         self.question_box.content = ""
         self.answer_box.content = ""
-        self.question_info.text = f"{self.current_question['uri'][-4:].replace('/','0')} - {self.current_question['source']} - {self.current_question['format']} - {self.current_question['type']}"
-    
+        self.question_info.text = f"{self.current_question['uri'][-4:].replace('/','0')} - {self.current_question['source']} - {self.current_question['format']} - {self.current_question['type']} - {self.current_question['category']}"
+        self.question_link.url = self.current_question['uri']
+    @cleanup
     def read_question_click(self, **event_args):
         """This method is called when the button is clicked"""
         self.say(self.current_question["format"] + " " + self.current_question["category"] + " " + self.current_question["question"])
         self.last_time = time.time()
         
-
+    @cleanup
     def read_answer_click(self, **event_args):
         """This method is called when the button is clicked"""
-        say(self.current_question["answer"])
-
+        self.say(self.current_question["answer"])
+    @cleanup
     def show_question_click(self, **event_args):
         """This method is called when the button is clicked"""
         self.question_box.content = f"""{self.current_question["question"]}"""
+    @cleanup    
     def show_answer_click(self, **event_args):
         """This method is called when the button is clicked"""
         self.answer_box.content = f"""{self.current_question["answer"]}"""
-
+    
     def stop_reading_click(self, **event_args):
         """This method is called when the button is clicked"""
         synth.pause()
         synth.cancel()
-        synth.stop()
+        synth.resume()
 
     def pause_reading_click(self, **event_args):
         """This method is called when the button is clicked"""
@@ -138,9 +156,9 @@ class mainpage(mainpageTemplate):
 
     def refresh_click(self, **event_args):
         """This method is called when the button is clicked"""
-        print(self.current_question)
-
-
+        self.init_db(True)
+        
+    @cleanup
     def answerbox_pressed_enter(self, **event_args):
         """This method is called when the user presses Enter in this text box"""
         if self.answerbox.text[0] == "/":
