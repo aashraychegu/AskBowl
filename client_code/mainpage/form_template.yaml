@@ -168,22 +168,23 @@ components:
         foreground: '', visible: true, spacing_above: small, spacing_below: small,
         background: ''}
       name: flow_panel_2
-      layout_properties: {width: 95, expand: false}
+      layout_properties: {width: 150, expand: false}
       components:
       - type: RichText
         properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
-          foreground: '', visible: true, font_size: 30, content: Volume, font: '',
+          foreground: '', visible: true, font_size: 30, content: 'Volume (%):', font: '',
           spacing_above: small, spacing_below: none, data: null, background: '', format: markdown}
         name: rich_text_1
-        layout_properties: {grid_position: 'FSSQOU,KDXOVZ'}
+        layout_properties: {grid_position: 'FSSQOU,KDXOVZ', width: null, expand: false}
         components: []
     - type: TextBox
       properties: {role: null, align: center, hide_text: false, tooltip: '', placeholder: '100',
-        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: 21,
+        border: '', enabled: true, foreground: '', visible: true, text: '100', font_size: 21,
         font: '', spacing_above: medium, type: number, spacing_below: none, italic: false,
         background: '', bold: true, underline: false}
       name: volume
-      layout_properties: {grid_position: 'COPNQE,ARDSVO', slot: logo, full_width_row: false}
+      layout_properties: {grid_position: 'COPNQE,ARDSVO', slot: logo, full_width_row: false,
+        width: 170, expand: false}
       event_bindings: {pressed_enter: text_box_1_pressed_enter}
   - type: FlowPanel
     properties: {}
@@ -195,50 +196,54 @@ components:
         foreground: '', visible: true, spacing_above: small, spacing_below: small,
         background: ''}
       name: flow_panel_2_copy
-      layout_properties: {width: 95, expand: false}
+      layout_properties: {width: 150, expand: false}
       components:
       - type: RichText
         properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
-          foreground: '', visible: true, font_size: 30, content: Rate, font: '', spacing_above: small,
-          spacing_below: none, data: null, background: '', format: markdown}
+          foreground: '', visible: true, font_size: 30, content: 'Rate (%):', font: '',
+          spacing_above: small, spacing_below: none, data: null, background: '', format: markdown}
         name: Rate
-        layout_properties: {grid_position: 'FSSQOU,KDXOVZ'}
+        layout_properties: {grid_position: 'FSSQOU,KDXOVZ', width: null, expand: false}
         components: []
     - type: TextBox
       properties: {role: null, align: center, hide_text: false, tooltip: '', placeholder: '100',
-        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: 21,
+        border: '', enabled: true, foreground: '', visible: true, text: '10', font_size: 21,
         font: '', spacing_above: medium, type: number, spacing_below: none, italic: false,
         background: '', bold: true, underline: false}
-      name: volume_copy
-      layout_properties: {grid_position: 'COPNQE,ARDSVO', slot: logo, full_width_row: false}
+      name: rate
+      layout_properties: {grid_position: 'COPNQE,ARDSVO', slot: logo, full_width_row: false,
+        width: 170, expand: false}
       event_bindings: {pressed_enter: text_box_1_pressed_enter}
     - type: FlowPanel
-      properties: {}
+      properties: {role: null, spacing: medium, align: left, tooltip: '', border: '',
+        foreground: '', visible: true, spacing_above: small, spacing_below: small,
+        background: ''}
       name: flow_panel_1_copy_2
-      layout_properties: {grid_position: 'WTKFVV,WZFAGO'}
+      layout_properties: {grid_position: 'WTKFVV,WZFAGO', expand: false, width: 365.717}
       components:
       - type: FlowPanel
         properties: {role: null, spacing: medium, align: left, tooltip: '', border: '',
           foreground: '', visible: true, spacing_above: small, spacing_below: small,
           background: ''}
         name: flow_panel_2_copy_2
-        layout_properties: {width: 95, expand: false}
+        layout_properties: {width: 150, expand: false}
         components:
         - type: RichText
           properties: {role: null, align: center, tooltip: '', enable_slots: true,
-            border: '', foreground: '', visible: true, font_size: 30, content: Pitch,
-            font: '', spacing_above: small, spacing_below: none, data: null, background: '',
-            format: markdown}
-          name: pitch
-          layout_properties: {grid_position: 'FSSQOU,KDXOVZ'}
+            border: '', foreground: '', visible: true, font_size: 30, content: 'Pitch
+              (%):', font: '', spacing_above: small, spacing_below: none, data: null,
+            background: '', format: markdown}
+          name: pitchtext
+          layout_properties: {grid_position: 'FSSQOU,KDXOVZ', width: null, expand: false}
           components: []
       - type: TextBox
         properties: {role: null, align: center, hide_text: false, tooltip: '', placeholder: '100',
-          border: '', enabled: true, foreground: '', visible: true, text: '', font_size: 21,
+          border: '', enabled: true, foreground: '', visible: true, text: '50', font_size: 21,
           font: '', spacing_above: medium, type: number, spacing_below: none, italic: false,
           background: '', bold: true, underline: false}
-        name: volume_copy_2
-        layout_properties: {grid_position: 'COPNQE,ARDSVO', slot: logo, full_width_row: false}
+        name: pitch
+        layout_properties: {grid_position: 'COPNQE,ARDSVO', slot: logo, full_width_row: false,
+          width: 170, expand: false}
         event_bindings: {pressed_enter: text_box_1_pressed_enter}
   - type: RichText
     properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',

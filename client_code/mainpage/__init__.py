@@ -99,18 +99,25 @@ class mainpage(mainpageTemplate):
         chosen_index = random.choice(indices)
         return self.pqs[chosen_index]
         
-    def say(self,text,voice = None,volume = 100,rate = 100,pitch = 100):
+    def say(self,text,voice = None,volume = None,rate = None,pitch = None):
         text = text.replace("`","")
         if voice == None:
             voice = self.voices[self.voices_dropdown.selected_value]
-        print(text)
-        utr = anvil.js.window.SpeechSynthesisUtterance(text)
+        if volume == None:
+            volume = int(self.volume.text)/100
+        if rate == None:
+            rate = int(self.rate.text)/10
+        if pitch == None:
+            pitch = int(self.pitch.text)/50
+        # print(text)
+        utr = anvil.js.window.SpeechSynthesisUtterance(text.strip())
         utr.voice = voice
         utr.volume = volume
         utr.rate = rate
         utr.pitch = pitch
-        print(utr.voice,utr.volume, utr.rate,utr.pitch,utr)
-        synth.speak(utr)
+        # print(utr.volume, volume,"\n", utr.rate, rate, "\n", utr.pitch, pitch)
+        with Notification("Please wait until the question starts",title = "Reading this question",style = "success",timeout=1):
+            synth.speak(utr)
     def load_new_question(self):
         return self.get_question(self.subject_dropdown.selected,self.sources_dropdown.selected)
     @cleanup
@@ -124,7 +131,7 @@ class mainpage(mainpageTemplate):
         self.answer_box.content = ""
         self.question_info.text = f"{self.current_question['uri'][-4:].replace('/','0')} - {self.current_question['source']} - {self.current_question['format']} - {self.current_question['type']} - {self.current_question['category']}"
         self.question_link.url = self.current_question['uri']
-    @cleanup
+    # @cleanup
     def read_question_click(self, **event_args):
         """This method is called when the button is clicked"""
         self.say(self.current_question["format"] + " " + self.current_question["category"] + " " + self.current_question["question"])
@@ -188,7 +195,9 @@ class mainpage(mainpageTemplate):
         self.tossups_text.text = f"Tossups: {self.correct_tossups}/{self.tossups}"
         self.bonus_text.text = f"Bonuses: {self.correct_bonuses}/{self.bonuses}"
         self.tplot.data = self.update_graphs()
-
+        self.answerbox.text = ""
+        self.answerbox.focus()
+    
     def quickcode(self,code):
         function_map = {
             "n":self.next_question_click,
