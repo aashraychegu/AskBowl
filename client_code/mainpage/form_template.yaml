@@ -310,3 +310,10 @@ components:
     properties: {item_template: mainpage.ItemTemplate1}
     name: past_questions
     layout_properties: {}
+- type: RichText
+  properties: {role: null, align: left, tooltip: '', enable_slots: true, border: '',
+    foreground: '', visible: true, font_size: null, content: '### Made by Aashray
+      Chegu Vijay 2023', font: '', spacing_above: small, spacing_below: small, data: null,
+    background: '', format: markdown}
+  name: rich_text_3
+  layout_properties: {slot: logo}
