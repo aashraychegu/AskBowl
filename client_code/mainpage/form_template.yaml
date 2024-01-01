@@ -316,21 +316,6 @@ components:
     type: Button
     layout_properties: {grid_position: 'YMLORI,SZVSKM'}
     event_bindings: {click: quickcodes_click}
-  - name: link_1
-    properties:
-      role: [body]
-      url: https://about-askbowl.anvil.app/
-      align: center
-      foreground: theme:On Surface
-      text: About
-      font_size: 16
-      font: ''
-      col_spacing: none
-      spacing_above: small
-      bold: true
-      underline: true
-    type: Link
-    layout_properties: {grid_position: 'LIJJFY,XPRXFR'}
 - type: RichText
   properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
     foreground: '', visible: true, font_size: null, content: '# Answer: ', font: '',
@@ -352,6 +337,20 @@ components:
     properties: {item_template: mainpage.ItemTemplate1}
     name: past_questions
     layout_properties: {}
+  - name: link_1
+    properties:
+      role: [body]
+      url: https://about-askbowl.anvil.app/
+      align: center
+      foreground: theme:On Surface
+      text: About
+      font_size: 16
+      font: ''
+      col_spacing: none
+      spacing_above: small
+      bold: true
+      underline: true
+    type: Link
 - type: RichText
   properties: {role: null, align: left, tooltip: '', enable_slots: true, border: '',
     foreground: '', visible: true, font_size: null, content: "### Made by Aashray\
@@ -359,3 +358,4 @@ components:
     data: null, background: '', format: markdown}
   name: rich_text_3
   layout_properties: {slot: logo}
+  components: []
