@@ -131,16 +131,18 @@ class mainpage(mainpageTemplate):
         self.answer_box.content = ""
         self.question_info.text = f"{self.current_question['uri'][-4:].replace('/','0')} - {self.current_question['source']} - {self.current_question['format']} - {self.current_question['type']} - {self.current_question['category']}"
         self.question_link.url = self.current_question['uri']
+
     # @cleanup
     def read_question_click(self, **event_args):
         """This method is called when the button is clicked"""
         self.say(self.current_question["format"] + " " + self.current_question["category"] + " " + self.current_question["question"])
         self.last_time = time.time()
         
-    @cleanup
+    # @cleanup
     def read_answer_click(self, **event_args):
         """This method is called when the button is clicked"""
         self.say(self.current_question["answer"])
+        
     @cleanup
     def show_question_click(self, **event_args):
         """This method is called when the button is clicked"""
