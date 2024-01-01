@@ -6,9 +6,9 @@ services:
   client_config: {}
   server_config: {}
 startup: {type: form, module: mainpage}
-package_name: Ask_Bowl
+package_name: AskBowl
 allow_embedding: false
-name: Ask Bowl
+name: AskBowl
 runtime_options:
   version: 2
   client_version: '3'
