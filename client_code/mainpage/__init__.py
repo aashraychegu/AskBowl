@@ -1,6 +1,6 @@
 from ._anvil_designer import mainpageTemplate
 from anvil import *
-import anvil.alert as aalert
+from anvil import alert as aalert
 import anvil.server
 import plotly.graph_objects as go
 import anvil.tables as tables
