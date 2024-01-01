@@ -56,6 +56,8 @@ class mainpage(mainpageTemplate):
     def update_graphs(self):
         return [go.Bar(x = list(self.tracked_tossups.keys()),y = list(self.tracked_tossups.values()),name = "Tossups"),
                 go.Bar(x = list(self.tracked_bonuses.keys()),y = list(self.tracked_bonuses.values()),name = "Bonuses",)]
+    
+    
     def cleanup(foo):
         def inner(self,*args,**kwargs):
             # print("cleaning up with",args,kwargs)
@@ -64,6 +66,8 @@ class mainpage(mainpageTemplate):
             self.stop_reading_click()
             synth.resume()
         return inner
+
+    
     def init_db(self,reset):
         ab_store = indexed_db.create_store('ask_bowl')
         if reset:
@@ -118,8 +122,11 @@ class mainpage(mainpageTemplate):
         # print(utr.volume, volume,"\n", utr.rate, rate, "\n", utr.pitch, pitch)
         with Notification("Please wait until the question starts",title = "Reading this question",style = "success",timeout=1):
             synth.speak(utr)
+
+    @cleanup
     def load_new_question(self):
         return self.get_question(self.subject_dropdown.selected,self.sources_dropdown.selected)
+        
     @cleanup
     def next_question_click(self, **event_args):
         """This method is called when the button is clicked"""
@@ -215,8 +222,43 @@ class mainpage(mainpageTemplate):
         
     def grade_mc(self, answer,correct):
         return answer[0].lower() == correct[0].lower()
+        
     def grade_sa(self,answer,correct):
         return sa_choice(f"You answered {answer}\nThe correct answer is {correct}\nIf your answer is correct, type 'yes'")
+
+    def waswrong_click(self, **event_args):
+        """This method is called when the button is clicked"""
+        if self.current_question["type"] == "bonus":
+            self.correct_bonuses -= 1
+        else:
+            self.correct_tossups -= 1
+        self.tossups_text.text = f"Tossups: {self.correct_tossups}/{self.tossups}"
+        self.bonus_text.text = f"Bonuses: {self.correct_bonuses}/{self.bonuses}"
+
+    def wascorrect_copy_click(self, **event_args):
+        """This method is called when the button is clicked"""
+        if self.current_question["type"] == "bonus":
+            self.correct_bonuses += 1
+        else:
+            self.correct_tossups += 1
+        self.tossups_text.text = f"Tossups: {self.correct_tossups}/{self.tossups}"
+        self.bonus_text.text = f"Bonuses: {self.correct_bonuses}/{self.bonuses}"
+
+    def quickcodes_click(self, **event_args):
+        """This method is called when the button is clicked"""
+        text = """
+        You can type these keyboard shortcuts into the answer box to move around quicker!
+        "/n" : go to the next question,
+        "/r" : read the question,
+        "/s" : stop reading the question,
+        "/p" : pause the question,
+        "/l" : play the question,
+        "/q" : show the question,
+        "/a" : show the answer to the question,
+        """
+        
+        Notification(text,title = "Quick movement codes for the answer box", timeout = None,)
+        
 
 
 
