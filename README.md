@@ -1,3 +1,7 @@
+# View the code for the older, desktop version of this app here: [ask_bowl](https://github.com/aashraychegu/ask_bowl)
+# Get to AskBowl here: [AskBowl](askbowl.anvil.app)
+Loved the second version of the app (I don't know why you would) - relive your old memories with [Old Ask_Bowl](oldaskbowl.anvil.app)
+
 # About This [Anvil](https://anvil.works/?utm_source=github:app_README) App
 
 ### Build web apps with nothing but Python.
