@@ -61,7 +61,6 @@ class mainpage(mainpageTemplate):
     
     def cleanup(foo):
         def inner(self,*args,**kwargs):
-            print("cleaning up with",foo,args,kwargs)
             self.stop_reading_click()
             foo(self,*args,**kwargs)
             self.stop_reading_click()
@@ -83,7 +82,6 @@ class mainpage(mainpageTemplate):
             
     def get_id(self, sources, categories):
         filtered_sources = [i for i in self.lookup.keys() if i in sources]
-        # print(filtered_sources)
         good_indices = []
         for i in filtered_sources:
             for j in self.lookup[i]:
@@ -93,9 +91,6 @@ class mainpage(mainpageTemplate):
         
     def get_question(self,categories,sources):
         indices = self.get_id(sources,categories)
-        # print(len(sources),len(self.sources))
-        # print(len(categories),len(self.all_categories))
-        # print("0",len(indices),len(self.pqs))
         if indices == []:
             indices = self.get_id(sources,self.all_categories)
         if indices == []:
@@ -103,7 +98,6 @@ class mainpage(mainpageTemplate):
         if indices == []:
             indices = self.get_id(self.sources,self.all_categories)
         chosen_index = random.choice(indices)
-        print(chosen_index, len(self.pqs) ,self.pqs[chosen_index])
         return self.pqs[chosen_index]
         
     def say(self,text,voice = None,volume = None,rate = None,pitch = None):
@@ -116,13 +110,11 @@ class mainpage(mainpageTemplate):
             rate = int(self.rate.text)/10
         if pitch == None:
             pitch = int(self.pitch.text)/50
-        # print(text)
         utr = anvil.js.window.SpeechSynthesisUtterance(text.strip())
         utr.voice = voice
         utr.volume = volume
         utr.rate = rate
         utr.pitch = pitch
-        # print(utr.volume, volume,"\n", utr.rate, rate, "\n", utr.pitch, pitch)
         with Notification("Please wait until the question starts",title = "Reading this question",style = "success",timeout=1):
             synth.speak(utr)
 
@@ -135,7 +127,6 @@ class mainpage(mainpageTemplate):
         if self.current_question is not None:
             self.past_questions.items = self.past_questions.items + [{"qtext":f"## {self.question_info.text}\n## {self.current_question['question']}\n## {self.current_question['answer']}","qlink":self.question_link.url}]
         self.current_question = self.load_new_question()
-        print(self.current_question)
         self.question_box.content = ""
         self.answer_box.content = ""
         self.question_info.text = f"{self.current_question['uri'][-4:].replace('/','0')} - {self.current_question['source']} - {self.current_question['format']} - {self.current_question['type']} - {self.current_question['category']}"
