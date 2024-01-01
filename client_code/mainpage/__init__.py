@@ -1,5 +1,6 @@
 from ._anvil_designer import mainpageTemplate
 from anvil import *
+import anvil.alert as aalert
 import anvil.server
 import plotly.graph_objects as go
 import anvil.tables as tables
@@ -69,15 +70,16 @@ class mainpage(mainpageTemplate):
 
     
     def init_db(self,reset):
-        ab_store = indexed_db.create_store('ask_bowl')
-        if reset:
-            self.pqs = anvil.server.call('get_questions_as_list')
-            self.lookup = anvil.server.call("create_categories",self.pqs)                
-            ab_store["pqs"] = self.pqs
-            ab_store["lookup"] = self.lookup
-        else:
-            self.pqs = ab_store["pqs"]
-            self.lookup = ab_store["lookup"] 
+        with Notification("Fetching question data from the server onto your local device", "Please wait! This process can take a bit, so I suggest drinking some water!", timeout=None):
+            ab_store = indexed_db.create_store('ask_bowl')
+            if reset:
+                self.pqs = anvil.server.call('get_questions_as_list')
+                self.lookup = anvil.server.call("create_categories",self.pqs)                
+                ab_store["pqs"] = self.pqs
+                ab_store["lookup"] = self.lookup
+            else:
+                self.pqs = ab_store["pqs"]
+                self.lookup = ab_store["lookup"] 
             
     def get_id(self, sources, categories):
         filtered_sources = [i for i in self.lookup.keys() if i in sources]
@@ -93,7 +95,7 @@ class mainpage(mainpageTemplate):
         indices = self.get_id(sources,categories)
         # print(len(sources),len(self.sources))
         # print(len(categories),len(self.all_categories))
-        # print("0",len(indices))
+        # print("0",len(indices),len(self.pqs))
         if indices == []:
             indices = self.get_id(sources,self.all_categories)
         if indices == []:
@@ -101,6 +103,7 @@ class mainpage(mainpageTemplate):
         if indices == []:
             indices = self.get_id(self.sources,self.all_categories)
         chosen_index = random.choice(indices)
+        print(chosen_index, len(self.pqs) ,self.pqs[chosen_index])
         return self.pqs[chosen_index]
         
     def say(self,text,voice = None,volume = None,rate = None,pitch = None):
@@ -123,7 +126,6 @@ class mainpage(mainpageTemplate):
         with Notification("Please wait until the question starts",title = "Reading this question",style = "success",timeout=1):
             synth.speak(utr)
 
-    @cleanup
     def load_new_question(self):
         return self.get_question(self.subject_dropdown.selected,self.sources_dropdown.selected)
         
@@ -132,7 +134,6 @@ class mainpage(mainpageTemplate):
         """This method is called when the button is clicked"""
         if self.current_question is not None:
             self.past_questions.items = self.past_questions.items + [{"qtext":f"## {self.question_info.text}\n## {self.current_question['question']}\n## {self.current_question['answer']}","qlink":self.question_link.url}]
-        print(self.subject_dropdown.selected,self.sources_dropdown.selected)
         self.current_question = self.load_new_question()
         print(self.current_question)
         self.question_box.content = ""
@@ -257,8 +258,9 @@ class mainpage(mainpageTemplate):
         "/q" : show the question,
         "/a" : show the answer to the question,
         """
-        
-        Notification(text,title = "Quick movement codes for the answer box", timeout = None,)
+        Notification(text,title = "Quick movement codes for the answer box", timeout = None).show()
+
+
         
 
 
