@@ -69,7 +69,9 @@ class mainpage(mainpageTemplate):
 
     
     def init_db(self,reset):
-        with Notification("Fetching question data from the server onto your local device", "Please wait! This process can take a bit, so I suggest drinking some water!", timeout=None):
+        with Notification("Fetching question data from the server onto your local device",
+                          "Please wait! This process can take a bit, so I suggest drinking some water!",
+                          timeout=None):
             ab_store = indexed_db.create_store('ask_bowl')
             if reset:
                 self.pqs = anvil.server.call('get_questions_as_list')
