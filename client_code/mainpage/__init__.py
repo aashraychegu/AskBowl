@@ -60,7 +60,7 @@ class mainpage(mainpageTemplate):
     
     def cleanup(foo):
         def inner(self,*args,**kwargs):
-            # print("cleaning up with",args,kwargs)
+            print("cleaning up with",foo,args,kwargs)
             self.stop_reading_click()
             foo(self,*args,**kwargs)
             self.stop_reading_click()
@@ -132,8 +132,9 @@ class mainpage(mainpageTemplate):
         """This method is called when the button is clicked"""
         if self.current_question is not None:
             self.past_questions.items = self.past_questions.items + [{"qtext":f"## {self.question_info.text}\n## {self.current_question['question']}\n## {self.current_question['answer']}","qlink":self.question_link.url}]
-        # print(self.past_questions.items)
+        print(self.subject_dropdown.selected,self.sources_dropdown.selected)
         self.current_question = self.load_new_question()
+        print(self.current_question)
         self.question_box.content = ""
         self.answer_box.content = ""
         self.question_info.text = f"{self.current_question['uri'][-4:].replace('/','0')} - {self.current_question['source']} - {self.current_question['format']} - {self.current_question['type']} - {self.current_question['category']}"
